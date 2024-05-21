@@ -1,0 +1,11 @@
+Filetype: Flipper NFC device
+Version: 2
+Device type: Mifare Classic
+UID: 0123456789ABCDEF
+ATQA: 1234
+SAK: AB
+Mifare Classic type: 1K
+Data format version: 2
+# Mifare Classic blocks, '??' means unknown data
+Block 0: 112233445566778899AABBCCDDEEFF00
+Block 1: 00112233445566778899AABBCCDDEEFF

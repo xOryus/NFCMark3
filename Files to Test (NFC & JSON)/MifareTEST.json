@@ -1,0 +1,13 @@
+{
+  "Created": "proxmark3",
+  "FileType": "mfcard",
+  "Card": {
+    "UID": "0123456789ABCDEF",
+    "ATQA": "1234",
+    "SAK": "AB"
+  },
+  "blocks": {
+    "0": "112233445566778899AABBCCDDEEFF00",
+    "1": "00112233445566778899AABBCCDDEEFF"
+  }
+}
