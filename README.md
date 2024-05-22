@@ -35,8 +35,8 @@ Ensure you have the following prerequisites installed:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/yourusername/proxmark3-to-nfc-converter.git
-    cd proxmark3-to-nfc-converter
+    git clone https://github.com/xOryus/NFCMark3
+    cd NFCMark3
     ```
 
 2. Run the application:
