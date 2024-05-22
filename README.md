@@ -13,13 +13,13 @@ The **Proxmark3 to NFC Converter** is a Python application designed to convert J
 ## ✨ Features
 
 - 🛠 Converts Proxmark3 JSON dump files to NFC files.
-- 📇 Supports Mifare Classic card dumps.
+- 📇 Supports All Mifare Classic Card dumps.
 - 💻 User-friendly graphical interface with Tkinter.
 - 📋 Logs conversion progress and errors.
 
 ## 📊 Version Information
 
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## 📥 Installation
 
@@ -28,7 +28,7 @@ The **Proxmark3 to NFC Converter** is a Python application designed to convert J
 Ensure you have the following prerequisites installed:
 
 - Python 3.x
-- Tkinter
+- Tkinter (built-in VSCODE) 
 
 ### Installing
 
@@ -53,9 +53,9 @@ Ensure you have the following prerequisites installed:
     python NFCMark3.py
     ```
 
-2. Use the "Browse" button to select the input Proxmark3 JSON dump file.
-3. Use the "Browse" button to select the output NFC file location (an example NFC file is included).
-4. Click the "Convert" button to perform the conversion.
+2. Use the "Load JSON File" button to select the input Proxmark3 JSON dump file.
+3. Wait for the conversion to happen in seconds
+4. Use the "Save Output to File" button to save the already configured .nfc file
 5. Check the log area for progress and any error messages.
 
 ## 📸 Example
