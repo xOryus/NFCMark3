@@ -2,22 +2,30 @@ import tkinter as tk
 from tkinter import messagebox, filedialog
 import json
 import binascii
-
+import time
 
 ################################################################
 ###########            CREATED BY Strix              ########### 
 ###########           Discord: strixmosh             ###########
 ################################################################
 
-
 # Version information (more updates coming soon)
-Version = "1.0.0"
+Version = "1.0.1"
 BuildTime = "2024-05-21 12:00:00"
 GitHash = "undefined"
 
 class UsageError(Exception):
     pass
 
+# NFC device type can be UID, Mifare Ultralight, Mifare Classic, bank card
+CARD_TYPE = {
+    ("0004", "08"): "Mifare Classic",  # 1k
+    ("0200", "18"): "Mifare Classic",  # 4k
+    ("0400", "09"): "Mifare Mini",
+    ("4400", "00"): "Mifare Ultralight",  # "NTAG213" "NTAG216"
+    ("4400", "20"): "Bank card",
+    ("4403", "20"): "Mifare DESFire",
+}
 def main():
     root = tk.Tk()
     root.title("Proxmark3 to NFC Converter")
@@ -88,58 +96,74 @@ def parse_proxmark3_json(json_file):
     if proxmark3_json.get("Created") != "proxmark3":
         raise ValueError("JSON file must be produced by Proxmark3")
 
-    if proxmark3_json.get("FileType") != "mfcard":
-        raise ValueError("Expecting Mifare card dump")
-
     card_data = proxmark3_json["Card"]
-    uid = decode_hex_data(card_data["UID"])
-    atqa = decode_hex_data(card_data["ATQA"])
-    sak = decode_hex_data(card_data["SAK"])
+    uid = card_data["UID"]
+    atqa = card_data["ATQA"]
+    sak = card_data["SAK"]
 
-    blocks_map = proxmark3_json["blocks"]
-    blocks = [decode_hex_data(block_data) for block_data in blocks_map.values()]
+    blocks_map = proxmark3_json.get("blocks", {})
+    blocks = [blocks_map.get(str(i), "??") for i in range(len(blocks_map))]
 
-    return {"UID": uid, "ATQA": atqa, "SAK": sak, "Blocks": blocks}
+    sector_keys = proxmark3_json.get("SectorKeys", {})
 
-def decode_hex_data(hex_str):
-    try:
-        return binascii.unhexlify(hex_str)
-    except binascii.Error as e:
-        raise ValueError(f"Failed to parse hex data '{hex_str}': {e}")
-    except TypeError as e:
-        raise ValueError(f"Invalid type for hex data '{hex_str}': {e}")
+    # Guess card type by looking at ATQA/SAK combo
+    card_type = CARD_TYPE.get((atqa, sak), "Unknown")
+
+    # Generate Key maps if sector_keys are provided
+    if sector_keys:
+        y = len(sector_keys)
+        s = int("1" * y, 2)
+        ska = skb = f"{s:016X}"
+    else:
+        ska = skb = "0" * 16
+
+    return {
+        "UID": uid,
+        "ATQA": atqa,
+        "SAK": sak,
+        "Blocks": blocks,
+        "CardType": card_type,
+        "KeyAMap": ska,
+        "KeyBMap": skb,
+        "SectorKeys": sector_keys
+    }
 
 def write_nfc_file(file_name, card):
     with open(file_name, "w") as nfc_file:
         write_nfc(nfc_file, card)
 
 def write_nfc(nfc_file, card):
-    nfc_file.write("""Filetype: Flipper NFC device
-Version: 2
-# Nfc device type can be UID, Mifare Ultralight, Mifare Classic, Bank card
-Device type: Mifare Classic
-# UID, ATQA and SAK are common for all formats
-""")
-    nfc_file.write(f"UID: {card['UID'].hex()}\n")
-    nfc_file.write(f"ATQA: {card['ATQA'].hex()}\n")
-    nfc_file.write(f"SAK: {card['SAK'].hex()}\n")
-    nfc_file.write("# Mifare Classic specific data\n")
-    mf_size = 0
-    block_fmt = "{}\n"
-    num_blocks = len(card["Blocks"])
-    if num_blocks == 64:
-        mf_size = 1
-    elif num_blocks == 128:
-        mf_size = 2
-    elif num_blocks == 256:
-        mf_size = 4
-    else:
-        block_fmt = "Block {}: {}\n"  # Custom format for unknown blocks
+    uid_formatted = " ".join(card['UID'][i:i+2] for i in range(0, len(card['UID']), 2))
+    atqa_formatted = " ".join(card['ATQA'][i:i+2] for i in range(0, len(card['ATQA']), 2))
+    sak_formatted = card['SAK']
 
-    nfc_file.write(f"Mifare Classic type: {mf_size}K\n")
-    nfc_file.write("Data format version: 2\n# Mifare Classic blocks, '??' means unknown data\n")
-    for i, block in enumerate(card["Blocks"]):
-        nfc_file.write(block_fmt.format(i, block.hex()))
+    nfc_file.write(f"""Filetype: Flipper NFC device
+Version: 2
+# {time.ctime()}
+# NFC device type can be UID, Mifare Ultralight, Mifare Classic, Bank card
+Device type: {card['CardType']}
+# UID, ATQA and SAK are common for all formats
+UID: {uid_formatted}
+ATQA: {atqa_formatted}
+SAK: {sak_formatted}
+""")
+
+    if card['CardType'] == "Mifare Classic":
+        nfc_file.write(f"""# Mifare Classic specific data
+Mifare Classic type: 1K
+Data format version: 1
+# Key map is the bit mask indicating valid key in each sector
+Key A map: {card['KeyAMap']}
+Key B map: {card['KeyBMap']}
+# Mifare Classic blocks
+""")
+        for i, block in enumerate(card["Blocks"]):
+            block_formatted = " ".join(block[j:j+2] for j in range(0, len(block), 2))
+            nfc_file.write(f"Block {i}: {block_formatted}\n")
+    else:
+        for i, block in enumerate(card["Blocks"]):
+            block_formatted = " ".join(block[j:j+2] for j in range(0, len(block), 2))
+            nfc_file.write(f"Block {i}: {block_formatted}\n")
 
 if __name__ == "__main__":
     main()
