@@ -62,7 +62,7 @@ Ensure you have the following prerequisites installed:
 
 Here's an example of the application in use:
 
-!Application Screenshot
+![Application Screenshot](https://i.imgur.com/orpzSUa.jpeg)
 
 ## 🤝 Contributing
 
