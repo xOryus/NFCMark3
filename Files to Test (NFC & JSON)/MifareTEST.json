@@ -1,13 +1,22 @@
 {
   "Created": "proxmark3",
-  "FileType": "mfcard",
   "Card": {
     "UID": "0123456789ABCDEF",
-    "ATQA": "1234",
-    "SAK": "AB"
+    "ATQA": "0004",
+    "SAK": "08"
   },
   "blocks": {
     "0": "112233445566778899AABBCCDDEEFF00",
     "1": "00112233445566778899AABBCCDDEEFF"
+  },
+  "SectorKeys": {
+    "0": {
+      "KeyA": "FFFFFFFFFFFF",
+      "KeyB": "FFFFFFFFFFFF"
+    },
+    "1": {
+      "KeyA": "FFFFFFFFFFFF",
+      "KeyB": "FFFFFFFFFFFF"
+    }
   }
 }
