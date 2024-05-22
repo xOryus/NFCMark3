@@ -101,10 +101,3 @@ For any questions or feedback, feel free to reach out:
 ## 🙏 Acknowledgements
 
 Special thanks to the developers and community of Proxmark3 and Momentum Firmware for their tools and support.
-
-- **Creator**: Strix
-- **Discord**: strixmosh
-
-## Acknowledgements
-
-Special thanks to the developers and community of Proxmark3 and Momentum Firmware for their tools and support.
