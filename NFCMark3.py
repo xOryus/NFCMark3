@@ -83,7 +83,7 @@ def save_output_file():
 
 # GUI setup
 app = tk.Tk()
-app.title("NFC Converter")
+app.title("ProxMark3 JSON to NFC Converter")
 app.geometry("800x600")
 app.configure(bg="#1a1a1a")
 
@@ -98,7 +98,7 @@ style.configure("TFrame", background="#1a1a1a")
 main_frame = ttk.Frame(app, padding="10")
 main_frame.pack(expand=True, fill=tk.BOTH)
 
-title = ttk.Label(main_frame, text="NFC Converter")
+title = ttk.Label(main_frame, text="ProxMark3 JSON to NFC Converter")
 title.pack(pady=10)
 
 load_btn = ttk.Button(main_frame, text="Load JSON File", command=open_json_file)
