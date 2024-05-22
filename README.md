@@ -1,4 +1,4 @@
-# Proxmark3 to NFC Converter
+# 🐬 Proxmark3 to NFC Converter
 
 ![Proxmark3 to NFC Converter](https://i.imgur.com/UIeHMss.png)
 
@@ -6,22 +6,22 @@
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Version](https://img.shields.io/badge/version-1.0.0-orange.svg)
 
-## Description
+## 📝 Description
 
-Proxmark3 to NFC Converter is a Python application designed to convert JSON dump files exported from Proxmark3 to NFC files compatible with the Flipper Zero. This tool provides an easy-to-use graphical interface for selecting input and output files, and it performs the conversion seamlessly.
+The **Proxmark3 to NFC Converter** is a Python application designed to convert JSON dump files exported from Proxmark3 to NFC files compatible with the Flipper Zero. This tool provides an easy-to-use graphical interface for selecting input and output files, and it performs the conversion seamlessly.
 
-## Features
+## ✨ Features
 
 - 🛠 Converts Proxmark3 JSON dump files to NFC files.
 - 📇 Supports Mifare Classic card dumps.
 - 💻 User-friendly graphical interface with Tkinter.
 - 📋 Logs conversion progress and errors.
 
-## Version Information
+## 📊 Version Information
 
 - **Version**: 1.0.0
 
-## Installation
+## 📥 Installation
 
 ### Prerequisites
 
@@ -45,7 +45,7 @@ Ensure you have the following prerequisites installed:
     python NFCMark3.py
     ```
 
-## Usage
+## 📖 Usage
 
 1. Open the application by running the script:
 
@@ -58,13 +58,13 @@ Ensure you have the following prerequisites installed:
 4. Click the "Convert" button to perform the conversion.
 5. Check the log area for progress and any error messages.
 
-## Example
+## 📸 Example
 
 Here's an example of the application in use:
 
-![Application Screenshot](https://i.imgur.com/orpzSUa.jpeg)
+!Application Screenshot
 
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository.
 2. Create your feature branch:
@@ -87,13 +87,20 @@ Here's an example of the application in use:
 
 5. Open a pull request.
 
-## License
+## 📜 License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-## Contact
+## 📞 Contact
 
 For any questions or feedback, feel free to reach out:
+
+- **Creator**: Strix
+- **Discord**: strixmosh
+
+## 🙏 Acknowledgements
+
+Special thanks to the developers and community of Proxmark3 and Momentum Firmware for their tools and support.
 
 - **Creator**: Strix
 - **Discord**: strixmosh
